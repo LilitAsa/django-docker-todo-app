@@ -1,0 +1,192 @@
+{% extends "main/base.html" %}
+
+{% block title %}
+  <title>
+    Profile | ToDo Application
+  </title>
+{% endblock title %}
+
+{% block content %}
+  <h1>ToDo Application</h1>
+  <h2>Welcome, {{ user_profile.first_name }}!</h2>
+  <div>
+    <a href="{% url 'users:logout' %}">Logout</a>
+    <a href="{% url 'users:edit_profile' %}">Edit Profile</a>
+    <a href="{% url 'users:delete_profile' %}">Delete Profile</a>
+  </div>
+  <h2>Profile</h2>
+  <h3>Имя: {{ user_profile.first_name }}</h3>
+  <h3>Фамилия: {{ user_profile.last_name }}</h3>
+  <h3>Email: {{ user_profile.email }}</h3>
+  <h3>Phone: {{ user_profile.phone }}</h3>
+  <h3>Ваши задачи:</h3>
+  
+  <form method="post" action="{% url 'users:profile' %}">
+    {% csrf_token %}
+    <input type="text" name="title" placeholder="Add Task ...">
+    <button type="submit">+</button>
+  </form>
+  <h3>Ваш ToDo:</h3>
+  <ul>
+    {% for task in user_profile.todos.all %}
+      <li>
+        {{ task.title }}
+        <a href="{% url 'users:edit_task' task.id %}">Edit</a>
+        <a href="{% url 'users:delete_task' task.id %}">Delete</a>
+        {% comment %} <a href="{% url 'users:complete_task' task.id %}">Complete</a> {% endcomment %}
+        {% comment %} <a href="{% url 'users:uncomplete_task' task.id %}">Uncomplete</a> {% endcomment %}
+        {% if task.is_urgent %}
+            <span class="urgent">Urgent</span>
+        {% endif %}
+        {% if task.is_important %}
+            <span class="important">Important</span>
+        {% endif %}
+        {% if task.is_overdue %}
+            <span class="overdue">Overdue</span>
+        {% endif %}
+        {% if task.is_delayed %}
+            <span class="delayed">Delayed</span>
+        {% endif %}
+        {% if task.is_canceled %}
+            <span class="canceled">Canceled</span>
+        {% endif %}
+        {% if task.is_paused %}
+            <span class="paused">Paused</span>
+        {% endif %}
+        {% if task.is_completed %}
+            <span class="completed">Completed</span>
+        {% endif %}
+        
+      </li>
+    {% empty %}
+      <li>You don't have any tasks yet</li> 
+    {% endfor %}
+  </ul>
+
+  {% for task in user_profile.todos.all %}
+  <li>
+    {{ task.title }}
+    {% if task.is_urgent %}🔥 Срочно{% endif %}
+    {% if task.is_important %}⭐ Важно{% endif %}
+    {% if task.is_overdue %}❗ Просрочено{% endif %}
+    {% if task.is_delayed %}⏳ Задержка{% endif %}
+  </li>
+  {% endfor %}
+
+  <h3>Ваши активные задачи:</h3>
+  <ul>
+    {% for task in user_profile.todos.all %}
+      {% if not task.is_completed %}
+        <li>
+          {{ task.title }}
+          <a href="{% url 'users:edit_task' task.id %}">Edit</a>
+          <a href="{% url 'users:delete_task' task.id %}">Delete</a>
+          {% if task.is_urgent %}
+            <span class="urgent">Urgent</span>
+          {% endif %}
+          {% if task.is_important %}
+            <span class="important">Important</span>
+          {% endif %}
+          {% if task.is_overdue %}
+            <span class="overdue">Overdue</span>
+          {% endif %}
+          {% if task.is_delayed %}
+            <span class="delayed">Delayed</span>
+          {% endif %}
+          {% if task.is_canceled %}
+            <span class="canceled">Canceled</span>
+          {% endif %}
+          {% if task.is_paused %}
+            <span class="paused">Paused</span>
+          {% endif %}
+          {% if task.is_completed %}
+            <span class="completed">Completed</span>
+          {% endif %}
+          <a href="{% url 'users:complete_task' task.id %}">Complete</a>
+          <a href="{% url 'users:uncomplete_task' task.id %}">Uncomplete</a> 
+          {% if task.is_completed %}
+            <span class="completed">Completed</span>
+          {% endif %}
+          
+        </li>
+      {% endif %}
+    {% empty %}
+      <li>You don't have any tasks yet</li> 
+    {% endfor %}
+  </ul>
+  <h3>Ваши отмененные задачи:</h3>
+  <ul>
+    {% for task in user_profile.todos.all %}
+      {% if task.is_canceled %}
+        <li>
+          {{ task.title }}
+          <a href="{% url 'users:edit_task' task.id %}">Edit</a>
+          <a href="{% url 'users:delete_task' task.id %}">Delete</a>
+        </li>
+      {% endif %}
+    {% empty %}
+      <li>You don't have any tasks yet</li> 
+    {% endfor %}
+  </ul>
+  <h3>Ваши отложенные задачи:</h3>
+  <ul>
+    {% for task in user_profile.todos.all %}
+      {% if task.is_delayed %}
+        <li>
+          {{ task.title }}
+          <a href="{% url 'users:edit_task' task.id %}">Edit</a>
+          <a href="{% url 'users:delete_task' task.id %}">Delete</a>
+        </li>
+      {% endif %}
+    {% empty %}
+      <li>You don't have any tasks yet</li> 
+    {% endfor %}
+  </ul>
+  <h3>Ваши просроченные задачи:</h3>
+  <ul>
+    {% for task in user_profile.todos.all %}
+      {% if task.is_overdue %}
+        <li>
+          {{ task.title }}
+          <a href="{% url 'users:edit_task' task.id %}">Edit</a>
+          <a href="{% url 'users:delete_task' task.id %}">Delete</a>
+        </li>
+      {% endif %}
+    {% empty %}
+      <li>You don't have any tasks yet</li> 
+    {% endfor %}
+  </ul>
+
+  <h3>Ваши приостановленные задачи:</h3>
+  <ul>
+    {% for task in user_profile.todos.all %}
+      {% if task.is_paused %}
+        <li>
+          {{ task.title }}
+          <a href="{% url 'users:edit_task' task.id %}">Edit</a>
+          <a href="{% url 'users:delete_task' task.id %}">Delete</a>
+        </li>
+      {% endif %}
+    {% empty %}
+      <li>You don't have any tasks yet</li> 
+    {% endfor %}
+  </ul>
+  
+  <h3>Ваши завершенные задачи:</h3>
+  <ul>
+    {% for task in user_profile.todos.all %}
+      {% if task.is_completed %}
+        <li>
+          {{ task.title }}
+          <a href="{% url 'users:edit_task' task.id %}">Edit</a>
+          <a href="{% url 'users:delete_task' task.id %}">Delete</a>
+        </li>
+      {% endif %}
+    {% empty %}
+      <li>You don't have any tasks yet</li> 
+    {% endfor %}
+  </ul>
+{% endblock %}
+
+
+
