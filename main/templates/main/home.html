@@ -5,17 +5,20 @@
 {% endblock title %}
 
 {% block content %}
-<div id="app">
-  <h1>ToDo Application</h1>
-  <p>Please Login or Register for using our service</p>
+  <div class="container">
 
-  <div>
-    <a href="{% url 'users:login' %}">Login</a>
-    <a href="{% url 'users:register' %}">Register</a>
-  </div>
-  <form action="/create_todo" method="POST">
-    <input type="text" name="todo" placeholder="New task ...">
-  </form>
-</div>
+    <div id="app">
+      <h1>ToDo Application</h1>
+      <p>Please Login or Register for using our service</p>
+
+      <div>
+        <a href="{% url 'users:login' %}">Login</a>
+        <a href="{% url 'users:register' %}">Register</a>
+      </div>
+      <form action="/create_todo" method="POST">
+        <input type="text" name="todo" placeholder="New task ...">
+      </form>
+    </div>
+</di>v
 {% endblock content %}
   

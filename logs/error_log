@@ -7,3 +7,4 @@
 2025/05/28 12:30:00 [error] 22#22: *2 connect() failed (111: Connection refused) while connecting to upstream, client: 172.18.0.1, server: , request: "GET / HTTP/1.1", upstream: "http://172.18.0.2:8000/", host: "localhost"
 2025/05/28 12:32:12 [error] 29#29: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 172.18.0.1, server: , request: "GET / HTTP/1.1", upstream: "http://172.18.0.3:8000/", host: "localhost"
 2025/05/28 12:33:15 [error] 29#29: *1 upstream timed out (110: Connection timed out) while connecting to upstream, client: 172.18.0.1, server: , request: "GET / HTTP/1.1", upstream: "http://172.18.0.3:8000/", host: "localhost"
+2025/05/29 11:56:57 [error] 22#22: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 172.18.0.1, server: , request: "GET /users/profile/ HTTP/1.1", upstream: "http://172.18.0.5:8000/users/profile/", host: "localhost", referrer: "http://localhost/users/task/6/edit/"

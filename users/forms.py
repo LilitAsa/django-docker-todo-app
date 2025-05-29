@@ -73,3 +73,4 @@ class TaskForm(forms.ModelForm):
         if commit:
             task.save()
         return task
+    

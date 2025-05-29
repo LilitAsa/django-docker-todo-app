@@ -1,11 +1,13 @@
 {% extends "main/base.html" %}
 
 {% block content %}
-  <h2>Редактировать задачу</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Сохранить</button>
-  </form>
-  <a href="{% url 'users:profile' %}">Назад</a>
+  <div class="container">
+    <h2>Редактировать задачу</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Сохранить</button>
+    </form>
+    <a href="{% url 'users:profile' %}">Назад</a>
+  </div>
 {% endblock %}

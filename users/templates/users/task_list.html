@@ -6,32 +6,35 @@
   {% endblock title %}
   
   {% block content %}
-    <h1>Task List</h1>
-    <ul>
-      {% for task in tasks %}
-        <li class="{% if task.is_completed %}completed{% endif %} {% if task.is_canceled %}canceled{% endif %}">
-          {{ task.title }}
-          {% if task.is_urgent %} (Urgent) {% endif %}
-          {% if task.is_important %} (Important) {% endif %}
-          {% if task.is_overdue %} (Overdue) {% endif %}
-          {% if task.is_delayed %} (Delayed) {% endif %}
-          {% if task.is_paused %} (Paused) {% endif %}
-          {% if task.is_important %} (Important) {% endif %}
-          {% if task.is_overdue %} (Overdue) {% endif %}
-          {% if task.is_delayed %} (Delayed) {% endif %}
-          {% if task.is_paused %} (Paused) {% endif %}
-          {% if task.is_completed %} (Completed) {% endif %}
-          {% if task.is_canceled %} (Canceled) {% endif %}
-          <div class="flex gap-2">
-            <a class="block"  href="{% url 'users:edit_task' task.id %}">Edit</a>
-            <a class="block" href="{% url 'users:delete_task' task.id %}">Delete</a>
-            <a class="block" href="{% url 'users:complete_task' task.id %}">Complete</a>
-            <a class="block" href="{% url 'users:uncomplete_task' task.id %}">Uncomplete</a>
-          </div>
-        </li>
-      {% empty %}
-        <li>You don't have any tasks yet</li> 
-      {% endfor %}
-    </ul>
+    <div class="container">
+      <h1>Task List</h1>
+      <ul>
+        {% for task in tasks %}
+          <li class="{% if task.is_completed %}completed{% endif %} {% if task.is_canceled %}canceled{% endif %}">
+            {{ task.title }}
+            {% if task.is_urgent %} (Urgent) {% endif %}
+            {% if task.is_important %} (Important) {% endif %}
+            {% if task.is_overdue %} (Overdue) {% endif %}
+            {% if task.is_delayed %} (Delayed) {% endif %}
+            {% if task.is_paused %} (Paused) {% endif %}
+            {% if task.is_important %} (Important) {% endif %}
+            {% if task.is_overdue %} (Overdue) {% endif %}
+            {% if task.is_delayed %} (Delayed) {% endif %}
+            {% if task.is_paused %} (Paused) {% endif %}
+            {% if task.is_completed %} (Completed) {% endif %}
+            {% if task.is_canceled %} (Canceled) {% endif %}
+            <div class="flex gap-2">
+              <a class="block"  href="{% url 'users:edit_task' task.id %}">Edit</a>
+              <a class="block" href="{% url 'users:delete_task' task.id %}">Delete</a>
+              <a class="block" href="{% url 'users:complete_task' task.id %}">Complete</a>
+              <a class="block" href="{% url 'users:uncomplete_task' task.id %}">Uncomplete</a>
+            </div>
+          </li>
+        {% empty %}
+          <li>You don't have any tasks yet</li> 
+        {% endfor %}
+      </ul>
+      <a href="{% url 'users:profile' %}">Back to profile</a>
+    </div>
   {% endblock %}
   
