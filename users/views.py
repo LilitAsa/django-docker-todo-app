@@ -40,7 +40,17 @@ def logout_view(request):
 
 @login_required
 def profile_view(request):
-    user_profile = UserProfile.objects.get(user=request.user)
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        # Create a new profile if it doesn't exist
+        user_profile = UserProfile.objects.create(
+            user=request.user,
+            first_name=request.user.first_name,
+            last_name=request.user.last_name,
+            email=request.user.email,
+            phone=''  # Default empty phone
+        )
 
     if request.method == "POST":
         # If task form is being submitted
@@ -49,10 +59,8 @@ def profile_view(request):
             profile_form = ProfileForm(instance=user_profile)
 
             if task_form.is_valid():
-                task = task_form.save(commit=False)
-                task.user_profile = user_profile  # Associate task with the user's profile
+                task = task_form.save(user_profile=user_profile) # Save the form, passing user_profile
                 task.check_flags()  # Update flags after saving the task
-                task.save()
                 return redirect("users:profile")  # Redirect to profile after task creation
         # If profile form is being submitted
         else:
@@ -137,9 +145,20 @@ def delete_profile_view(request):
 
 @login_required
 def task_list_view(request):
-    user_profile = UserProfile.objects.get(user=request.user)
-    tasks = Task.objects.filter(user_profile=user_profile)
-    return render(request, 'users/task_list.html', {'tasks': tasks})
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+        tasks = Task.objects.filter(user_profile=user_profile)
+        return render(request, 'users/task_list.html', {'tasks': tasks})
+    except UserProfile.DoesNotExist:
+        # Create a new profile if it doesn't exist
+        user_profile = UserProfile.objects.create(
+            user=request.user,
+            first_name=request.user.first_name,
+            last_name=request.user.last_name,
+            email=request.user.email,
+            phone=''  # Default empty phone
+        )
+        return render(request, 'users/task_list.html', {'tasks': []})
 
 @login_required
 def task_detail_view(request, task_id):
@@ -166,12 +185,6 @@ def change_task_status_view(request, task_id):
     task.is_completed = not task.is_completed
     task.save()
     return redirect('users:task_list_view')
-
-@login_required
-def task_list_view(request):
-    user_profile = UserProfile.objects.get(user=request.user)
-    tasks = Task.objects.filter(user_profile=user_profile)
-    return render(request, 'users/task_list.html', {'tasks': tasks})
 
 
 

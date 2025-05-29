@@ -18,6 +18,14 @@ DEBUG = environ.get("DEBUG", "False") == "True"
 ALLOWED_HOSTS = environ.get("ALLOWED_HOSTS",'').split()
 
 
+# env = environ.Env()
+# environ.Env.read_env()
+
+# DEBUG = env.bool('DEBUG', default=False)
+# SECRET_KEY = env('DJANGO_SECRET_KEY')
+# ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+
+
 # Application definition
 
 INSTALLED_APPS = [

@@ -11,6 +11,15 @@
       {% for task in tasks %}
         <li class="{% if task.is_completed %}completed{% endif %} {% if task.is_canceled %}canceled{% endif %}">
           {{ task.title }}
+          {% if task.is_urgent %} (Urgent) {% endif %}
+          {% if task.is_important %} (Important) {% endif %}
+          {% if task.is_overdue %} (Overdue) {% endif %}
+          {% if task.is_delayed %} (Delayed) {% endif %}
+          {% if task.is_paused %} (Paused) {% endif %}
+          {% if task.is_important %} (Important) {% endif %}
+          {% if task.is_overdue %} (Overdue) {% endif %}
+          {% if task.is_delayed %} (Delayed) {% endif %}
+          {% if task.is_paused %} (Paused) {% endif %}
           {% if task.is_completed %} (Completed) {% endif %}
           {% if task.is_canceled %} (Canceled) {% endif %}
           <div class="flex gap-2">

@@ -66,9 +66,10 @@ class TaskForm(forms.ModelForm):
     is_urgent = forms.BooleanField(required=False)
     is_important = forms.BooleanField(required=False)
 
-    def save(self, commit=True):
+    def save(self, user_profile=None, commit=True):
         task = super().save(commit=False)
-        task.check_flags()  # Call the method to check flags after saving
+        if user_profile:
+            task.user_profile = user_profile
         if commit:
             task.save()
         return task
